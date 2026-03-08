@@ -40,11 +40,11 @@ export default function RootLayout({
             </Link>
 
             <nav className="hidden md:flex items-center gap-8">
-              <Link href="#" className="flex items-center gap-2 text-sm tracking-widest text-gray-300 hover:text-white hover:text-[#cda35e] transition-colors duration-300">
+              <Link href="/#search" className="flex items-center gap-2 text-sm tracking-widest text-gray-300 hover:text-white hover:text-[#cda35e] transition-colors duration-300">
                 <Search className="w-4 h-4" />
                 <span>検索</span>
               </Link>
-              <Link href="#" className="flex items-center gap-2 text-sm tracking-widest text-gray-300 hover:text-white hover:text-[#cda35e] transition-colors duration-300">
+              <Link href="/search" className="flex items-center gap-2 text-sm tracking-widest text-gray-300 hover:text-white hover:text-[#cda35e] transition-colors duration-300">
                 <Menu className="w-4 h-4" />
                 <span>ショップ一覧</span>
               </Link>
