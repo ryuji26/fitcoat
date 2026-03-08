@@ -4,6 +4,7 @@ import { MapPin, Phone, Globe, Navigation, ChevronLeft, Sparkles, CheckCircle2 }
 import { notFound } from 'next/navigation'
 import { Metadata } from 'next'
 import { BeforeAfterSlider } from '@/components/BeforeAfterSlider'
+import { StarRating } from '@/components/StarRating'
 
 export const dynamic = 'force-dynamic'
 
@@ -75,9 +76,12 @@ export default async function ShopDetailPage({ params }: PageProps) {
                         <span className="text-xs tracking-[0.3em] font-light text-[#cda35e]">AUTHORIZED DEALER</span>
                     </div>
 
-                    <h1 className="text-3xl md:text-5xl font-serif font-light tracking-wider text-gray-100 leading-tight mb-10">
+                    <h1 className="text-3xl md:text-5xl font-serif font-light tracking-wider text-gray-100 leading-tight mb-6">
                         {shop.name}
                     </h1>
+                    <div className="mb-10">
+                        <StarRating rating={shop.google_rating || 0} reviewCount={shop.google_review_count || 0} iconSize={18} />
+                    </div>
 
                     <div className="flex flex-wrap gap-4 pt-10 border-t border-gray-800/40">
                         {shop.google_maps_url && (

@@ -2,6 +2,7 @@ import { getSupabase } from "@/utils/supabase/client"
 import Link from 'next/link'
 import { MapPin, Phone, Search, ArrowLeft, ChevronLeft, ChevronRight } from 'lucide-react'
 import { SearchFilterForm } from '@/components/SearchFilterForm'
+import { StarRating } from '@/components/StarRating'
 
 export const dynamic = 'force-dynamic'
 
@@ -137,8 +138,8 @@ export default async function SearchPage({
                                                 </span>
                                             )}
                                         </div>
-                                        <div className="flex text-[#cda35e] gap-1 text-xs">
-                                            ★ ★ ★ ★ ☆
+                                        <div className="pt-1">
+                                            <StarRating rating={shop.google_rating || 0} reviewCount={shop.google_review_count || 0} />
                                         </div>
                                     </div>
 

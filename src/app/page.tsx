@@ -2,6 +2,7 @@ import { getSupabase } from "@/utils/supabase/client"
 import Link from 'next/link'
 import { MapPin, Phone } from 'lucide-react'
 import { HeroSearch } from '@/components/HeroSearch'
+import { StarRating } from '@/components/StarRating'
 
 // サーバーコンポーネントで最新のSSRフェッチを行う設定（App Router）
 export const dynamic = 'force-dynamic'
@@ -36,8 +37,13 @@ export default async function Home() {
               <div className="flex justify-between items-start mb-6">
                 {/* テキストエリア */}
                 <div className="space-y-3 flex-grow pr-4">
-                  <h3 className="text-lg font-serif tracking-widest text-gray-200 leading-snug">
+                  <h3 className="text-lg font-serif tracking-widest text-gray-200 leading-snug flex items-center gap-2">
                     {shop.name}
+                    {shop.is_independent && (
+                      <span className="text-[10px] tracking-widest px-2 py-0.5 border border-[#cda35e]/30 text-[#cda35e] bg-[#cda35e]/5 rounded-sm shrink-0 font-sans">
+                        独立系専門店
+                      </span>
+                    )}
                   </h3>
 
                   {shop.address && (
@@ -53,9 +59,9 @@ export default async function Home() {
                     </p>
                   )}
 
-                  {/* 星評価（モックアップ） */}
-                  <div className="flex text-gray-400 gap-1 pt-1 text-xs">
-                    ★ ★ ★ ★ ☆
+                  {/* 動的星評価 */}
+                  <div className="pt-2">
+                    <StarRating rating={shop.google_rating || 0} reviewCount={shop.google_review_count || 0} />
                   </div>
                 </div>
 
