@@ -3,9 +3,11 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Search } from 'lucide-react'
+import { JapanMapSelector } from '@/components/JapanMapSelector'
 
 export function HeroSearch() {
     const [isFocused, setIsFocused] = useState(false)
+    const [isIndependentOnly, setIsIndependentOnly] = useState(true)
 
     return (
         <section className="relative w-full min-h-[70vh] flex flex-col items-center justify-center overflow-hidden bg-black px-6 py-32">
@@ -55,73 +57,18 @@ export function HeroSearch() {
 
                         {/* ミニマルな検索入力エリア */}
                         <div className="relative flex items-center w-full bg-[#0a0a0a] border border-gray-800 rounded-full overflow-hidden transition-colors duration-500 hover:border-gray-600 focus-within:border-gray-400 shadow-[0_0_40px_rgba(0,0,0,0.8)]">
-                            <div className="pl-6 pr-3 text-gray-500 flex items-center gap-2 border-r border-gray-800">
-                                <Search className="w-5 h-5 shrink-0" />
-                                <select
-                                    name="area"
-                                    className="bg-transparent text-gray-300 outline-none text-sm tracking-widest cursor-pointer py-6 appearance-none pr-4 [&>option]:bg-[#111] [&>option]:text-gray-300"
-                                    onFocus={() => setIsFocused(true)}
-                                    onBlur={() => setIsFocused(false)}
-                                >
-                                    <option value="">全国</option>
-                                    <option value="北海道">北海道</option>
-                                    <option value="青森県">青森県</option>
-                                    <option value="岩手県">岩手県</option>
-                                    <option value="宮城県">宮城県</option>
-                                    <option value="秋田県">秋田県</option>
-                                    <option value="山形県">山形県</option>
-                                    <option value="福島県">福島県</option>
-                                    <option value="茨城県">茨城県</option>
-                                    <option value="栃木県">栃木県</option>
-                                    <option value="群馬県">群馬県</option>
-                                    <option value="埼玉県">埼玉県</option>
-                                    <option value="千葉県">千葉県</option>
-                                    <option value="東京都">東京都</option>
-                                    <option value="神奈川県">神奈川県</option>
-                                    <option value="新潟県">新潟県</option>
-                                    <option value="富山県">富山県</option>
-                                    <option value="石川県">石川県</option>
-                                    <option value="福井県">福井県</option>
-                                    <option value="山梨県">山梨県</option>
-                                    <option value="長野県">長野県</option>
-                                    <option value="岐阜県">岐阜県</option>
-                                    <option value="静岡県">静岡県</option>
-                                    <option value="愛知県">愛知県</option>
-                                    <option value="三重県">三重県</option>
-                                    <option value="滋賀県">滋賀県</option>
-                                    <option value="京都府">京都府</option>
-                                    <option value="大阪府">大阪府</option>
-                                    <option value="兵庫県">兵庫県</option>
-                                    <option value="奈良県">奈良県</option>
-                                    <option value="和歌山県">和歌山県</option>
-                                    <option value="鳥取県">鳥取県</option>
-                                    <option value="島根県">島根県</option>
-                                    <option value="岡山県">岡山県</option>
-                                    <option value="広島県">広島県</option>
-                                    <option value="山口県">山口県</option>
-                                    <option value="徳島県">徳島県</option>
-                                    <option value="香川県">香川県</option>
-                                    <option value="愛媛県">愛媛県</option>
-                                    <option value="高知県">高知県</option>
-                                    <option value="福岡県">福岡県</option>
-                                    <option value="佐賀県">佐賀県</option>
-                                    <option value="長崎県">長崎県</option>
-                                    <option value="熊本県">熊本県</option>
-                                    <option value="大分県">大分県</option>
-                                    <option value="宮崎県">宮崎県</option>
-                                    <option value="鹿児島県">鹿児島県</option>
-                                    <option value="沖縄県">沖縄県</option>
-                                </select>
+                            <div className="pl-6 pr-4 text-gray-500 flex items-center shrink-0">
+                                <Search className="w-5 h-5" />
                             </div>
                             <input
                                 type="text"
                                 name="q"
                                 placeholder="地名・キーワードでショップを探す"
-                                className="w-full bg-transparent text-gray-200 py-6 px-4 outline-none font-light tracking-[0.1em] placeholder:text-gray-600 text-sm md:text-base"
+                                className="w-full bg-transparent text-gray-200 py-6 px-2 outline-none font-light tracking-[0.1em] placeholder:text-gray-600 text-sm md:text-base"
                                 onFocus={() => setIsFocused(true)}
                                 onBlur={() => setIsFocused(false)}
                             />
-                            <button type="submit" className="pr-6 pl-4 py-6 text-sm tracking-widest text-[#cda35e] hover:text-white transition-colors shrink-0">
+                            <button type="submit" className="pr-8 pl-4 py-6 text-sm tracking-widest text-[#cda35e] hover:text-white transition-colors shrink-0">
                                 検索
                             </button>
                         </div>
@@ -136,7 +83,8 @@ export function HeroSearch() {
                                     name="independent_only"
                                     value="true"
                                     className="peer appearance-none w-4 h-4 border border-gray-600 rounded-sm bg-[#111] checked:bg-[#cda35e] checked:border-[#cda35e] transition-colors cursor-pointer"
-                                    defaultChecked
+                                    checked={isIndependentOnly}
+                                    onChange={(e) => setIsIndependentOnly(e.target.checked)}
                                 />
                                 <svg className="absolute w-3 h-3 text-black opacity-0 peer-checked:opacity-100 pointer-events-none transition-opacity" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
                                     <polyline points="20 6 9 17 4 12"></polyline>
@@ -148,6 +96,9 @@ export function HeroSearch() {
                         </label>
                     </div>
                 </motion.form>
+
+                {/* Japan Map Area Selector */}
+                <JapanMapSelector isIndependentOnly={isIndependentOnly} />
             </div>
         </section>
     )
