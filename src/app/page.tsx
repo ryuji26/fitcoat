@@ -1,65 +1,86 @@
-import Image from "next/image";
+import { supabase } from "@/utils/supabase/client"
+import Link from 'next/link'
+import { MapPin, Phone } from 'lucide-react'
+import { HeroSearch } from '@/components/HeroSearch'
 
-export default function Home() {
+// サーバーコンポーネントで最新のSSRフェッチを行う設定（App Router）
+export const dynamic = 'force-dynamic'
+
+export default async function Home() {
+  // Supabaseからデータを取得
+  const { data: shops, error } = await supabase
+    .from('shops')
+    .select('*')
+    .order('created_at', { ascending: false })
+    .limit(12) // トップは直近の12件を取得
+
+  if (error) {
+    console.error('Fetch error:', error)
+  }
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+    <div className="w-full bg-[#0a0a0a] min-h-screen">
+
+      {/* 意図駆動型検索（Intent-Driven Search）とSpotlightを実装したヒーローセクション */}
+      <HeroSearch />
+
+      {/* ショップ一覧セクション */}
+      <section className="py-20 px-6 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
+          {shops?.map((shop) => (
+            <div
+              key={shop.id}
+              className="group border border-gray-800/60 bg-[#161616] p-6 hover:border-gray-600 transition-all duration-300"
             >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+              <div className="flex justify-between items-start mb-6">
+                {/* テキストエリア */}
+                <div className="space-y-3 flex-grow pr-4">
+                  <h3 className="text-lg font-serif tracking-widest text-gray-200 leading-snug">
+                    {shop.name}
+                  </h3>
+
+                  {shop.address && (
+                    <p className="text-xs text-gray-400 tracking-wider flex items-start gap-2">
+                      <MapPin className="w-3.5 h-3.5 text-gray-500 shrink-0 mt-0.5" />
+                      <span className="line-clamp-1">{shop.address}</span>
+                    </p>
+                  )}
+                  {shop.phone && (
+                    <p className="text-xs text-gray-400 tracking-wider flex items-center gap-2">
+                      <Phone className="w-3.5 h-3.5 text-gray-500" />
+                      <span>{shop.phone}</span>
+                    </p>
+                  )}
+
+                  {/* 星評価（モックアップ） */}
+                  <div className="flex text-gray-400 gap-1 pt-1 text-xs">
+                    ★ ★ ★ ★ ☆
+                  </div>
+                </div>
+
+                {/* サムネイル画像（プレースホルダー） */}
+                <div className="w-20 h-20 bg-gray-900 border border-gray-800 shrink-0 overflow-hidden">
+                  <div className="w-full h-full bg-[url('https://images.unsplash.com/photo-1619682817481-e994891cd1f5?auto=format&fit=crop&q=80&w=200')] bg-cover bg-center opacity-70 group-hover:scale-105 transition-transform duration-700" />
+                </div>
+              </div>
+
+              {/* 詳細を見るボタン */}
+              <Link
+                href={`/shops/${shop.id}`}
+                className="block w-full text-center py-3 text-xs tracking-widest text-gray-300 border border-gray-700 hover:bg-gray-800 hover:text-white transition-colors"
+              >
+                詳細を見る
+              </Link>
+            </div>
+          ))}
+
+          {shops?.length === 0 && (
+            <div className="col-span-full py-20 text-center text-gray-500 font-light tracking-wider">
+              店舗データが登録されていません。
+            </div>
+          )}
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+      </section>
     </div>
-  );
+  )
 }
