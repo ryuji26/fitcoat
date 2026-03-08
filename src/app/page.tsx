@@ -1,6 +1,6 @@
 import { getSupabase } from "@/utils/supabase/client"
 import Link from 'next/link'
-import { MapPin, Phone } from 'lucide-react'
+import { MapPin, Phone, Image as ImageIcon } from 'lucide-react'
 import { HeroSearch } from '@/components/HeroSearch'
 import { StarRating } from '@/components/StarRating'
 
@@ -65,9 +65,16 @@ export default async function Home() {
                   </div>
                 </div>
 
-                {/* サムネイル画像（プレースホルダー） */}
-                <div className="w-20 h-20 bg-gray-900 border border-gray-800 shrink-0 overflow-hidden">
-                  <div className="w-full h-full bg-[url('https://images.unsplash.com/photo-1619682817481-e994891cd1f5?auto=format&fit=crop&q=80&w=200')] bg-cover bg-center opacity-70 group-hover:scale-105 transition-transform duration-700" />
+                {/* サムネイル画像 */}
+                <div className="w-20 h-20 bg-[#111] border border-gray-800 shrink-0 overflow-hidden flex items-center justify-center">
+                  {shop.cover_image_url ? (
+                    <img src={shop.cover_image_url} alt={shop.name} className="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-700" />
+                  ) : (
+                    <div className="flex flex-col items-center justify-center text-gray-700">
+                      <ImageIcon className="w-6 h-6 opacity-30" />
+                      <span className="text-[8px] tracking-widest mt-1">NO IMAGE</span>
+                    </div>
+                  )}
                 </div>
               </div>
 

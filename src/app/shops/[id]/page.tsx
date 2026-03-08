@@ -1,6 +1,6 @@
 import { getSupabase } from "@/utils/supabase/client"
 import Link from 'next/link'
-import { MapPin, Phone, Globe, Navigation, ChevronLeft, Sparkles, CheckCircle2 } from 'lucide-react'
+import { MapPin, Phone, Globe, Navigation, ChevronLeft, Sparkles, CheckCircle2, Image as ImageIcon, Info } from 'lucide-react'
 import { notFound } from 'next/navigation'
 import { Metadata } from 'next'
 import { BeforeAfterSlider } from '@/components/BeforeAfterSlider'
@@ -63,8 +63,20 @@ export default async function ShopDetailPage({ params }: PageProps) {
             </div>
 
             <article className="max-w-5xl mx-auto px-6 pb-32 space-y-24">
-                {/* === ヘッダーエリア === */}
-                <header className="relative pt-20 pb-16 px-8 md:px-16 border border-gray-800/60 bg-gradient-to-b from-[#111] to-[#0a0a0a]">
+                {/* === ヘッダー / カバー画像エリア === */}
+                <div className="w-full h-64 md:h-96 relative bg-[#111] border border-gray-800/60 overflow-hidden flex flex-col items-center justify-center">
+                    {shop.cover_image_url ? (
+                        <img src={shop.cover_image_url} alt={shop.name} className="w-full h-full object-cover opacity-80" />
+                    ) : (
+                        <div className="flex flex-col items-center gap-3 text-gray-700">
+                            <ImageIcon className="w-10 h-10 opacity-50" />
+                            <span className="text-sm tracking-[0.3em] font-light">NO IMAGE</span>
+                        </div>
+                    )}
+                </div>
+
+                {/* === タイトル・基本情報エリア === */}
+                <header className="relative pt-16 pb-12 px-8 md:px-16 border-x border-b border-gray-800/60 bg-gradient-to-b from-[#111] to-[#0a0a0a]">
                     {/* 四隅のゴールドアクセント */}
                     <div className="absolute top-0 left-0 w-8 h-8 border-t border-l border-[#cda35e]/40"></div>
                     <div className="absolute top-0 right-0 w-8 h-8 border-t border-r border-[#cda35e]/40"></div>
@@ -106,6 +118,32 @@ export default async function ShopDetailPage({ params }: PageProps) {
                                 <Globe className="w-4 h-4 text-gray-400 group-hover:text-white" />
                                 <span>公式サイト</span>
                             </a>
+                        )}
+                    </div>
+
+                    {/* 紹介文 または 準備中表示 */}
+                    <div className="mt-12 text-gray-300 font-light leading-loose tracking-wider text-sm md:text-base">
+                        {shop.description ? (
+                            <div className="whitespace-pre-wrap">{shop.description}</div>
+                        ) : (
+                            <div className="bg-[#111] border border-gray-800/60 p-8 md:p-12 text-center space-y-6">
+                                <Info className="w-8 h-8 text-gray-600 mx-auto" />
+                                <div className="space-y-2">
+                                    <h3 className="text-[#cda35e] tracking-widest text-lg">店舗情報の準備中</h3>
+                                    <p className="text-gray-400 text-sm">
+                                        現在、店舗オーナー様からの詳細情報（紹介文、写真、メニュー料金など）の登録をお待ちしております。
+                                    </p>
+                                </div>
+                                <div className="pt-4">
+                                    <Link
+                                        href={`/owner?shop_name=${encodeURIComponent(shop.name)}&shop_id=${shop.id}`}
+                                        className="inline-flex items-center justify-center gap-2 bg-[#cda35e]/10 text-[#cda35e] border border-[#cda35e]/30 hover:bg-[#cda35e] hover:text-black px-6 py-3 text-xs md:text-sm font-bold tracking-widest transition-all duration-300"
+                                    >
+                                        <Sparkles className="w-4 h-4" />
+                                        <span>【店舗関係者様へ】無料の情報登録・編集はこちら</span>
+                                    </Link>
+                                </div>
+                            </div>
                         )}
                     </div>
                 </header>

@@ -1,6 +1,6 @@
 import { getSupabase } from "@/utils/supabase/client"
 import Link from 'next/link'
-import { MapPin, Phone, Search, ArrowLeft, ChevronLeft, ChevronRight } from 'lucide-react'
+import { MapPin, Phone, Search, ArrowLeft, ChevronLeft, ChevronRight, Image as ImageIcon } from 'lucide-react'
 import { SearchFilterForm } from '@/components/SearchFilterForm'
 import { StarRating } from '@/components/StarRating'
 
@@ -120,9 +120,16 @@ export default async function SearchPage({
                             className="block group bg-[#161616] border border-gray-800/60 hover:border-gray-600 transition-all duration-300 p-6 sm:p-8"
                         >
                             <div className="flex flex-col sm:flex-row gap-6">
-                                {/* サムネイル画像（プレースホルダー） */}
-                                <div className="w-full sm:w-48 h-32 bg-gray-900 border border-gray-800 shrink-0 overflow-hidden">
-                                    <div className="w-full h-full bg-[url('https://images.unsplash.com/photo-1619682817481-e994891cd1f5?auto=format&fit=crop&q=80&w=200')] bg-cover bg-center opacity-70 group-hover:scale-105 transition-transform duration-700" />
+                                {/* サムネイル画像 */}
+                                <div className="w-24 h-24 md:w-32 md:h-32 bg-[#111] border border-gray-800 shrink-0 overflow-hidden flex items-center justify-center">
+                                    {shop.cover_image_url ? (
+                                        <img src={shop.cover_image_url} alt={shop.name} className="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-700" />
+                                    ) : (
+                                        <div className="flex flex-col items-center justify-center text-gray-700">
+                                            <ImageIcon className="w-6 h-6 md:w-8 md:h-8 opacity-30" />
+                                            <span className="text-[8px] md:text-[10px] tracking-widest mt-1">NO IMAGE</span>
+                                        </div>
+                                    )}
                                 </div>
 
                                 {/* テキスト情報 */}
