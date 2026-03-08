@@ -1,4 +1,4 @@
-import { supabase } from "@/utils/supabase/client"
+import { getSupabase } from "@/utils/supabase/client"
 import Link from 'next/link'
 import { MapPin, Phone } from 'lucide-react'
 import { HeroSearch } from '@/components/HeroSearch'
@@ -8,6 +8,7 @@ export const dynamic = 'force-dynamic'
 
 export default async function Home() {
   // Supabaseからデータを取得
+  const supabase = getSupabase()
   const { data: shops, error } = await supabase
     .from('shops')
     .select('*')

@@ -1,4 +1,4 @@
-import { supabase } from "@/utils/supabase/client"
+import { getSupabase } from "@/utils/supabase/client"
 import Link from 'next/link'
 import { MapPin, Phone, Globe, Navigation, ChevronLeft, Sparkles, CheckCircle2 } from 'lucide-react'
 import { notFound } from 'next/navigation'
@@ -14,6 +14,7 @@ interface PageProps {
 // 1. 動的なSEOメタデータの生成（generateMetadata）
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
     const resolvedParams = await params;
+    const supabase = getSupabase()
     const { data: shop } = await supabase
         .from('shops')
         .select('name, address')
@@ -36,6 +37,7 @@ export default async function ShopDetailPage({ params }: PageProps) {
     const resolvedParams = await params;
 
     // 指定されたIDの店舗データを取得
+    const supabase = getSupabase()
     const { data: shop, error } = await supabase
         .from('shops')
         .select('*')
