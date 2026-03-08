@@ -1,10 +1,12 @@
-import { supabase } from '@/utils/supabase/client'
+import { getSupabase } from '@/utils/supabase/client'
 import AdminClaimsClient from './AdminClaimsClient'
 
 // 常に最新データを取得するため
 export const dynamic = 'force-dynamic'
 
 export default async function AdminClaimsPage() {
+    const supabase = getSupabase()
+
     // 'pending' (未処理) な申請のみを取得し、新しい順で表示
     const { data: claims, error } = await supabase
         .from('claim_requests_v3')

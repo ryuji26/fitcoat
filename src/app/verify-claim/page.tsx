@@ -1,4 +1,4 @@
-import { supabase } from '@/utils/supabase/client'
+import { getSupabase } from '@/utils/supabase/client'
 import VerifyForm from './VerifyForm'
 import { Building2, XCircle } from 'lucide-react'
 
@@ -12,6 +12,8 @@ export default async function VerifyClaimPage({ searchParams }: { searchParams: 
     if (!token) {
         return <ErrorPage message="有効なURLではありません。認証用リンクを確認してください。" />
     }
+
+    const supabase = getSupabase()
 
     // 1. サーバー側でレンダリング中にトークンを検証
     const { data: request, error: fetchErr } = await supabase
