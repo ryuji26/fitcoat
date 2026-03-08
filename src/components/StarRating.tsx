@@ -8,6 +8,18 @@ interface StarRatingProps {
 }
 
 export function StarRating({ rating = 0, reviewCount, className = "", iconSize = 14 }: StarRatingProps) {
+    // レビューがまだ1件もない場合のUI
+    if (reviewCount === 0 || reviewCount === undefined) {
+        return (
+            <div className={`flex items-center gap-1.5 ${className}`}>
+                <Star size={iconSize} className="text-gray-600" />
+                <span className="text-gray-400 text-xs tracking-wider font-light hover:text-[#cda35e] transition-colors cursor-pointer border-b border-transparent hover:border-[#cda35e] pb-0.5">
+                    最初のレビューを投稿する
+                </span>
+            </div>
+        )
+    }
+
     const renderStars = () => {
         const stars = []
         const wholeStars = Math.floor(rating)
@@ -41,11 +53,9 @@ export function StarRating({ rating = 0, reviewCount, className = "", iconSize =
                 {rating.toFixed(1)}
             </span>
             {/* レビュー件数 */}
-            {reviewCount !== undefined && (
-                <span className="text-gray-500 font-sans text-xs tracking-wider">
-                    ({reviewCount})
-                </span>
-            )}
+            <span className="text-gray-500 font-sans text-xs tracking-wider">
+                ({reviewCount})
+            </span>
         </div>
     )
 }
