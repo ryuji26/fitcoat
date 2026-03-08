@@ -1,6 +1,7 @@
 import { getSupabase } from "@/utils/supabase/client"
 import Link from 'next/link'
-import { MapPin, Phone, Search, SlidersHorizontal, ArrowLeft, ChevronLeft, ChevronRight } from 'lucide-react'
+import { MapPin, Phone, Search, ArrowLeft, ChevronLeft, ChevronRight } from 'lucide-react'
+import { SearchFilterForm } from '@/components/SearchFilterForm'
 
 export const dynamic = 'force-dynamic'
 
@@ -95,12 +96,13 @@ export default async function SearchPage({
                         <Search className="w-6 h-6 text-[#cda35e]" />
                         検索結果
                     </h1>
-                    <div className="flex flex-wrap gap-2 text-sm text-gray-400">
-                        {area && <span className="bg-gray-800/50 px-3 py-1 rounded-full border border-gray-700">エリア: {area}</span>}
-                        {keyword && <span className="bg-gray-800/50 px-3 py-1 rounded-full border border-gray-700">キーワード: {keyword}</span>}
-                        {independentOnly && <span className="text-[#cda35e] bg-[#cda35e]/10 px-3 py-1 rounded-full border border-[#cda35e]/30 flex items-center gap-1.5"><SlidersHorizontal className="w-3.5 h-3.5" /> 独立系専門店のみ</span>}
-                        {(!area && !keyword && !independentOnly) && <span>すべての店舗</span>}
-                    </div>
+
+                    {/* 直接条件を変更できる検索フォーム */}
+                    <SearchFilterForm
+                        initialKeyword={keyword}
+                        initialArea={area}
+                        initialIndependentOnly={independentOnly}
+                    />
                 </div>
             </div>
 
@@ -196,8 +198,8 @@ export default async function SearchPage({
                                         key={pageNum}
                                         href={createPageUrl(pageNum)}
                                         className={`w-10 h-10 flex items-center justify-center border transition-colors ${currentPage === pageNum
-                                                ? 'bg-[#cda35e]/10 text-[#cda35e] border-[#cda35e]/50'
-                                                : 'border-gray-800 bg-[#111] text-gray-400 hover:text-white hover:border-gray-500'
+                                            ? 'bg-[#cda35e]/10 text-[#cda35e] border-[#cda35e]/50'
+                                            : 'border-gray-800 bg-[#111] text-gray-400 hover:text-white hover:border-gray-500'
                                             }`}
                                     >
                                         {pageNum}
